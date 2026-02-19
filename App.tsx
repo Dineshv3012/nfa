@@ -6,7 +6,7 @@ import AutomatonVisualizer from './components/AutomatonVisualizer';
 import SketchPad from './components/SketchPad';
 import VoiceControl from './components/VoiceControl';
 import SimulationPanel from './components/SimulationPanel';
-import { analyzeImage, parseVoiceCommand } from './services/gemini';
+import { processAITask } from './services/assistantEngine';
 
 const INITIAL_ENFA: Automaton = {
   states: ['A', 'B', 'C'],
