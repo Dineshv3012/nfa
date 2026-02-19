@@ -1,7 +1,10 @@
-<<<<<<< HEAD
+# ε-NFA to NFA Converter
+
+Master the ε-closure algorithm with AI-powered tools. This application converts Nondeterministic Finite Automata with Epsilon transitions (ε-NFA) into standard Nondeterministic Finite Automata (NFA) step-by-step.
+
 ## Run Locally
 
-**Prerequisites:**  Node.js
+**Prerequisites:** Node.js
 
 ### 1. Backend Service (AI Integration)
 
@@ -27,7 +30,4 @@ npm run dev
 
 The application will open at `http://localhost:3000`.
 
-**Note:** Ensure your `GEMINI_API_KEY` is set in the `server/.env` file (copied automatically during setup).
-=======
-# nfa
->>>>>>> 96d0d05b8a8956f6b88d2640a5de1b209a7ff16c
+**Note:** Ensure your `OPENAI_API_KEY` is set in the `server/.env` file. (Note: The project was updated from Gemini to OpenAI GPT-4o for better performance).

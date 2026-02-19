@@ -94,6 +94,8 @@ const VoiceControl: React.FC<Props> = ({ onCommand, isProcessing }) => {
                 <button
                     onClick={toggleListening}
                     disabled={isProcessing}
+                    title={isListening ? "Stop listening" : "Start listening"}
+                    aria-label={isListening ? "Stop listening" : "Start listening"}
                     className={`
             w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-xl transition-all duration-300
             ${isListening ? 'bg-red-500 animate-pulse scale-110' : 'bg-white text-indigo-600 hover:scale-105'}

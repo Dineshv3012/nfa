@@ -393,6 +393,8 @@ const App: React.FC = () => {
                   value={enfa.initialState}
                   onChange={(e) => setInitialState(e.target.value)}
                   className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold text-blue-600"
+                  title="Select Initial State"
+                  aria-label="Initial State"
                 >
                   {enfa.states.length > 0 ? (
                     enfa.states.map(s => <option key={s} value={s}>{s}</option>)
@@ -417,7 +419,7 @@ const App: React.FC = () => {
                   {enfa.states.map(s => (
                     <span key={s} className="group relative flex items-center bg-slate-100 text-slate-700 px-2 py-1 rounded-lg text-xs font-bold border border-slate-200">
                       {s}
-                      <button onClick={() => removeState(s)} className="ml-1 text-slate-400 hover:text-red-500"><i className="fas fa-times"></i></button>
+                      <button onClick={() => removeState(s)} className="ml-1 text-slate-400 hover:text-red-500" title={`Remove state ${s}`} aria-label={`Remove state ${s}`}><i className="fas fa-times"></i></button>
                     </span>
                   ))}
                 </div>
@@ -439,7 +441,7 @@ const App: React.FC = () => {
                     <span key={a} className="flex items-center bg-slate-100 text-slate-700 px-2 py-1 rounded-lg text-xs font-bold border border-slate-200">
                       {a || 'ε'}
                       {a !== 'ε' && (
-                        <button onClick={() => removeSymbol(a)} className="ml-1 text-slate-400 hover:text-red-500"><i className="fas fa-times"></i></button>
+                        <button onClick={() => removeSymbol(a)} className="ml-1 text-slate-400 hover:text-red-500" title={`Remove symbol ${a}`} aria-label={`Remove symbol ${a}`}><i className="fas fa-times"></i></button>
                       )}
                     </span>
                   ))}
@@ -455,6 +457,8 @@ const App: React.FC = () => {
                   <select
                     value={newTrans.from} onChange={e => setNewTrans(prev => ({ ...prev, from: e.target.value }))}
                     className="px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none"
+                    title="Source State"
+                    aria-label="Source State"
                   >
                     <option value="">Origin</option>
                     {enfa.states.map(s => <option key={s} value={s}>{s}</option>)}
@@ -462,6 +466,8 @@ const App: React.FC = () => {
                   <select
                     value={newTrans.symbol} onChange={e => setNewTrans(prev => ({ ...prev, symbol: e.target.value }))}
                     className="px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none"
+                    title="Transition Symbol"
+                    aria-label="Transition Symbol"
                   >
                     <option value="">Sym</option>
                     {enfa.alphabet.map(a => <option key={a} value={a}>{a || 'ε'}</option>)}
@@ -469,6 +475,8 @@ const App: React.FC = () => {
                   <select
                     value={newTrans.to} onChange={e => setNewTrans(prev => ({ ...prev, to: e.target.value }))}
                     className="px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none"
+                    title="Target State"
+                    aria-label="Target State"
                   >
                     <option value="">Dest</option>
                     {enfa.states.map(s => <option key={s} value={s}>{s}</option>)}
@@ -511,7 +519,7 @@ const App: React.FC = () => {
             <div className="bg-blue-50 p-6 rounded-2xl shadow-inner border-2 border-dashed border-blue-200 animate-fade-in">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-sm font-bold text-blue-800 tracking-tight">Bulk Input / Output</h3>
-                <button onClick={() => setShowJsonInput(false)} className="text-blue-500 hover:text-blue-700"><i className="fas fa-times"></i></button>
+                <button onClick={() => setShowJsonInput(false)} className="text-blue-500 hover:text-blue-700" title="Close" aria-label="Close"><i className="fas fa-times"></i></button>
               </div>
               <textarea
                 value={jsonInput}
@@ -543,7 +551,7 @@ const App: React.FC = () => {
                     <span className="mx-2 text-slate-400">─({t.symbol || 'ε'})─▶</span>
                     <span className="font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">{t.to}</span>
                   </span>
-                  <button onClick={() => removeTransition(i)} className="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1">
+                  <button onClick={() => removeTransition(i)} className="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1" title="Remove transition" aria-label="Remove transition">
                     <i className="fas fa-trash-alt text-xs"></i>
                   </button>
                 </div>
