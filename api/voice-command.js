@@ -1,23 +1,21 @@
 import OpenAI from 'openai';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY || 'no-key',
 });
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || "");
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    try {
-        const { transcript, currentNfa } = req.body;
-        if (!transcript) return res.status(400).json({ error: 'No transcript' });
+    const { transcript, currentNfa } = req.body;
+    if (!transcript) return res.status(400).json({ error: 'No transcript' });
 
-        if (!process.env.OPENAI_API_KEY) {
-            return res.status(500).json({ error: 'OpenAI API Key not configured' });
-        }
-
-        const prompt = `
+    const prompt = `
       You are an assistant modifying a Finite Automaton (NFA) based on a user's voice command.
       Current NFA State:
       ${JSON.stringify(currentNfa, null, 2)}
@@ -34,6 +32,20 @@ export default async function handler(req, res) {
       6. Return ONLY the JSON.
     `;
 
+    const tryGemini = async () => {
+        const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+        if (!apiKey) throw new Error('Gemini API Key not configured');
+
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+        return JSON.parse(cleanedText);
+    };
+
+    const tryOpenAI = async () => {
+        if (!process.env.OPENAI_API_KEY) throw new Error('OpenAI API Key not configured');
+
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
             messages: [
@@ -44,11 +56,25 @@ export default async function handler(req, res) {
         });
 
         const text = response.choices[0].message.content;
-        const json = JSON.parse(text);
+        return JSON.parse(text);
+    };
 
-        res.status(200).json(json);
+    try {
+        if (process.env.OPENAI_API_KEY) {
+            try {
+                const result = await tryOpenAI();
+                return res.status(200).json(result);
+            } catch (openAiError) {
+                console.warn('OpenAI failed, falling back to Gemini:', openAiError.message);
+                const result = await tryGemini();
+                return res.status(200).json(result);
+            }
+        } else {
+            const result = await tryGemini();
+            return res.status(200).json(result);
+        }
     } catch (error) {
-        console.error('Voice Command Error:', error);
+        console.error('Final Voice Command Error:', error);
         res.status(500).json({ error: 'Failed to process voice command: ' + error.message });
     }
 }
