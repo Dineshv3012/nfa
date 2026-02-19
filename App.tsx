@@ -219,9 +219,10 @@ const App: React.FC = () => {
         </div>
 
         {aiStatus && (
-          <div className="mt-6 inline-flex items-center gap-3 px-6 py-3 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 shadow-sm">
-            <div className={`w-2 h-2 rounded-full ${isAnalyzing || isProcessingVoice ? 'bg-indigo-500 animate-pulse' : 'bg-green-500'}`}></div>
-            <i className="fas fa-microchip"></i> {aiStatus}
+          <div className={`mt-6 inline-flex items-center gap-3 px-6 py-3 border rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 shadow-sm ${aiStatus.includes('[NEURAL-LOCAL]') ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-indigo-50 border-indigo-200 text-indigo-700'
+            }`}>
+            <div className={`w-2 h-2 rounded-full ${isAnalyzing || isProcessingVoice ? 'bg-indigo-500 animate-pulse' : (aiStatus.includes('[NEURAL-LOCAL]') ? 'bg-emerald-500' : 'bg-green-500')}`}></div>
+            <i className={`fas ${aiStatus.includes('[NEURAL-LOCAL]') ? 'fa-brain' : 'fa-microchip'}`}></i> {aiStatus}
           </div>
         )}
       </header>

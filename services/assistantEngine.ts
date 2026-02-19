@@ -1,22 +1,26 @@
-
-import { Automaton } from "../types";
-
-/**
- * Unified Assistant Engine
- * orchestrates Local (Free/Fast) and Backend (Powerful) AI tasks
- */
+import { processLocalIntelligence } from './localNeuralEngine';
 
 export async function processAITask(
     type: 'voice' | 'vision',
     payload: string,
     currentNfa: Automaton
-): Promise<{ updatedNfa: Automaton; source: 'local' | 'cloud'; message: string }> {
+): Promise<{ updatedNfa: Automaton; source: 'local' | 'cloud' | 'neural-local'; message: string }> {
 
-    // 1. If Voice, try Local Fast Parser first
+    // 1. Try Advanced Local Neural Engine first (NLP based)
     if (type === 'voice') {
+        const localNeural = processLocalIntelligence(payload, currentNfa);
+        if (localNeural) {
+            return {
+                updatedNfa: localNeural.updated,
+                source: 'neural-local',
+                message: localNeural.message
+            };
+        }
+
+        // Fallback to basic rule-based local parser if neural check misses
         const localResult = tryLocalRules(payload, currentNfa);
         if (localResult) {
-            return { updatedNfa: localResult, source: 'local', message: "Instant Local Engine updated automaton." };
+            return { updatedNfa: localResult, source: 'local', message: "Instantly processed by local logic." };
         }
     }
 
