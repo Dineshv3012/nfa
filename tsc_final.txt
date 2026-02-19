@@ -1,0 +1,19 @@
+components/AutomatonVisualizer.tsx(13,8): error TS7016: Could not find a declaration file for module 'd3'. 'C:/Users/VMDDK/OneDrive/Documents/nfa-convert-main/node_modules/d3/src/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/d3` if it exists or add a new declaration (.d.ts) file containing `declare module 'd3';`
+components/AutomatonVisualizer.tsx(93,62): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(117,22): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(118,27): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+components/AutomatonVisualizer.tsx(119,28): error TS7006: Parameter 's' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(119,31): error TS7006: Parameter 'i' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(137,23): error TS7006: Parameter 'event' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(137,30): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(142,22): error TS7006: Parameter 'event' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(142,29): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(146,21): error TS7006: Parameter 'event' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(146,28): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(153,24): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(154,24): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+components/AutomatonVisualizer.tsx(186,13): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(190,22): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(205,35): error TS7006: Parameter 'd' implicitly has an 'any' type.
+components/AutomatonVisualizer.tsx(220,30): error TS7006: Parameter 'd' implicitly has an 'any' type.
