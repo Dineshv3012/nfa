@@ -40,6 +40,7 @@ const App: React.FC = () => {
   const [activeTool, setActiveTool] = useState<'none' | 'draw' | 'voice' | 'upload'>('none');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isProcessingVoice, setIsProcessingVoice] = useState(false);
+  const [aiStatus, setAiStatus] = useState<string | null>(null);
 
   // Transition Form State
   const [newTrans, setNewTrans] = useState<Transition>({ from: '', to: '', symbol: '' });
@@ -139,30 +140,36 @@ const App: React.FC = () => {
 
   // --- New Feature Handlers ---
 
+  // Handle Image/Drawing Analysis via Unified AI
   const handleImageAnalysis = async (imageData: string) => {
     setIsAnalyzing(true);
+    setAiStatus("Vision Processor: Analyzing sketch...");
     try {
-      const newAutomaton = await analyzeImage(imageData);
-      setEnfa(newAutomaton);
-      setActiveTool('none');
+      const result = await processAITask('vision', imageData, enfa);
+      setEnfa(result.updatedNfa);
+      setAiStatus(result.message);
+      setTimeout(() => setActiveTool('none'), 1000);
     } catch (e) {
-      alert("Failed to analyze image. Please ensure your API Key is set and the image is clear.");
-      console.error(e);
+      setAiStatus("Vision Error: " + (e as Error).message);
     } finally {
       setIsAnalyzing(false);
+      setTimeout(() => setAiStatus(null), 5000);
     }
   };
 
+  // Handle Voice Command via Unified AI
   const handleVoiceCommand = async (transcript: string) => {
     setIsProcessingVoice(true);
+    setAiStatus("Neural Engine: Processing voice command...");
     try {
-      const updatedNfa = await parseVoiceCommand(transcript, enfa);
-      setEnfa(updatedNfa);
+      const result = await processAITask('voice', transcript, enfa);
+      setEnfa(result.updatedNfa);
+      setAiStatus(`[${result.source.toUpperCase()}] ${result.message}`);
     } catch (e) {
-      alert("Failed to process voice command.");
-      console.error(e);
+      setAiStatus("AI Error: " + (e as Error).message);
     } finally {
       setIsProcessingVoice(false);
+      setTimeout(() => setAiStatus(null), 5000);
     }
   };
 
@@ -210,6 +217,13 @@ const App: React.FC = () => {
             <i className="fas fa-file-upload"></i> Upload
           </button>
         </div>
+
+        {aiStatus && (
+          <div className="mt-6 inline-flex items-center gap-3 px-6 py-3 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 shadow-sm">
+            <div className={`w-2 h-2 rounded-full ${isAnalyzing || isProcessingVoice ? 'bg-indigo-500 animate-pulse' : 'bg-green-500'}`}></div>
+            <i className="fas fa-microchip"></i> {aiStatus}
+          </div>
+        )}
       </header>
 
       {/* Full Screen AI Tools Overlay */}
