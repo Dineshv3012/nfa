@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
         if (!apiKey) throw new Error('Gemini API Key not configured');
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
         const result = await model.generateContent(prompt);
         const text = result.response.text();
         const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();

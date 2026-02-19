@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
         if (!apiKey) throw new Error('Gemini API Key not configured');
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
         // Remove data:image/png;base64, prefix if present
         const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
